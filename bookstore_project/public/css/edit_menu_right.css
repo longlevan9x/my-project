@@ -1,0 +1,9 @@
+.span3 div.side-inner-holder ul.side-list{
+	width: 100%;
+	height: 120px;
+	overflow: auto;
+}
+.span3 div.side-inner-holder ul.side-list:nth-of-type(2){
+	overflow: none;
+	height: 90px;
+}
