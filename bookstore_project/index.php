@@ -7,7 +7,9 @@
 	require_once 'app/libs/sendmail.php';
 	require_once 'app/helper/helper.php';
 	require_once 'app/helper/common_helper.php';
-	$cn = isset($_GET['cn']) ? trim($_GET['cn']) : 'index';
+    require_once 'app/modle/setting_model.php';
+
+$cn = isset($_GET['cn']) ? trim($_GET['cn']) : 'index';
 	if ($cn != "signup" AND $cn != "login") {
 	require_once 'app/view/partials/header_view.php';
 		if ($cn != "cart") {

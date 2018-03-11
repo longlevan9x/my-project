@@ -1,3 +1,6 @@
+<?php
+$data = get_data('footer');
+?>
 <section class="container-fluid footer-top2">
                 <section class="social-ico-bar">
                     <section class="container">
@@ -8,9 +11,7 @@
                 </section>
                 <section class="container">
                     <section class="row-fluid">
-                        <p><strong>Địa chỉ gửi hàng đổi/trả/bảo hành:</strong> Trung Tâm Xử Lý Đơn Hàng TIKI, Lô II-1, đường CN1, Khu Công Nghiệp Tân Bình, phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh (Tham khảo <a href="" target="_blank">hướng dẫn đổi, trả, bảo hành</a> hoặc liên hệ 1900-6035 để được hướng dẫn trước khi gửi sản phẩm về Tiki)</p>
-                        <p>Địa chỉ văn phòng: 52 Út Tịch, phường 4, quận Tân Bình, thành phố Hồ Chí Minh</p>
-                        <p>Giấy chứng nhận Đăng ký Kinh doanh số 0309532909 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 06/01/2010</p>
+                        <?= $data['meta_value']; ?>
                     </section>
                 </section>
             </section>

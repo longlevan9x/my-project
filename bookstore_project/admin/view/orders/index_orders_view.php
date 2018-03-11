@@ -21,35 +21,36 @@ $array_trang_thai = [
 ];
  ?>
 	<?php if (!empty($dataAllOrders)): ?>
-		<div class="row">
-				<h2 class="text-center">Danh sách đơn hàng !!!</h2>
+        <?php $title = 'Danh sách đơn hàng !!!'; ?>
+    <?php else: ?>
+        <?php $title = 'Khong co don hang !!!'; ?>
+    <?php endif ?>
+
+    <div class="row">
+				<h2 class="text-center"><?= $title; ?></h2>
 		</div>
-		<div class=" col-md-3" style="">
+		<div class=" col-md-4" style="">
   	 		<div class="form-group">
-  	 			<label for="input" class="col-sm-4 control-label">Trạng thái:</label>
-  	 			<div class="col-sm-8">
+  	 			<label for="input" class="col-sm-3 control-label">Trạng thái:</label>
+  	 			<div class="col-sm-6">
   	 				<form action="?sk=orders" id="form-order" method="get" accept-charset="utf-8">
   	 					<select name="type" id="trangthai" class="form-control" required="required">
 			  	 			<option value="0" <?php echo isset($_GET['type']) && $_GET['type'] == 0 ? 'selected' : '' ?>>Chờ xác nhận</option>
 			  	 			<option value="1" <?php echo isset($_GET['type']) && $_GET['type'] == 1 ? 'selected' : '' ?>>Đã xác nhận</option>
 			  	 			<option value="2" <?php echo isset($_GET['type']) && $_GET['type'] == 2 ? 'selected' : '' ?>>Đã hủy</option>
 			  	 		</select>
+
   	 				</form>
-  	 			</div>
-  	 		</div>
+                </div>
+                <div class=" search col-sm-2" style="">
+                    <a href="?sk=orders&m=export-excel" data-count-order="<?= count($dataAllOrders); ?>" id="export_excel" target="_blank" class="btn btn-primary pull-right">Xuất Excel</a>
+                </div>
+            </div>
 		</div>
 		<div class="row search col-md-7" style="">
   	 		<button type="button" name="btnSearch" class="btn btn-primary pull-right" id="btnSearch">Search</button>
   	 		<input type="text" name="txtsearch" id="txtsearch" value="<?php echo isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>" class="pull-right" placeholder="Nhap tu tim kiem">
 		</div>
-		<div class="row search col-md-1" style="">
-  	 		<button type="button" name="export_excel" class="btn btn-primary pull-right" id="export_excel">Export Excel</button>
-		</div>
-	<?php else: ?>
-	  <div class="row">
-	    <h2 class="text-center">Khong co don hang !!!</h2>
-	  </div>
-	<?php endif ?>
   <?php foreach ($dataAllOrders as $key => $listOrder): ?>
   <div class="row">
     <div class="col-md-12" style="border-bottom: 2px dotted green ; margin: 20px 0px;background-color: #CCFFFF;">
@@ -150,6 +151,15 @@ $array_trang_thai = [
 			let type = $(this).val();
 			window.location.href = "?sk=orders&m=index&page=1&type="+type;
 		});
-		$('#export_excel').click();
+		$('#export_excel').click(function (event) {
+		    event.preventDefault();
+            let order_quantity = $(this).data('count-order');
+            if (order_quantity <= 0) {
+                alert("Không có dữ liệu để export");
+            }
+            else {
+                window.location.href = $(this).attr('href') + "&type=" + <?php echo isset($_GET['type']) ? $_GET['type'] : '' ?>;
+            }
+        });
 	});
 </script>

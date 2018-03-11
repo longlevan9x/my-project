@@ -41,6 +41,9 @@
 		case 'members':
 			require_once 'members.php';
 			break;
+        case 'footer':
+            require_once 'footer.php';
+            break;
 		case 'index':
 			require_once '../view/home_view.php';
 			break;

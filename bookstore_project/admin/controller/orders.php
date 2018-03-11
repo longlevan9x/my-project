@@ -71,53 +71,53 @@ function updateOrder(){
 }
 
 function exportExcel() {
+
+    $array_trang_thai = [
+        'Chờ xác nhận',
+        'Đã xác nhận',
+        'Đã hủy',
+    ];
 	require "../libs/Classes/PHPExcel.php";
-	$data = [
-	['Nguyễn Khánh Linh', 'Nữ', '500k'], 
-	['Ngọc Trinh', 'Nữ', '700k'], 
-	['Tùng Sơn', 'Không xác định', 'Miễn phí'], 
-	['Kenny Sang', 'Không xác định', 'Miễn phí']
-		];
-//Khởi tạo đối tượng
-$excel = new PHPExcel();
-//Chọn trang cần ghi (là số từ 0->n)
-$excel->setActiveSheetIndex(0);
-//Tạo tiêu đề cho trang. (có thể không cần)
-$excel->getActiveSheet()->setTitle('demo ghi dữ liệu');
+    $objExcel = new PHPExcel;
+    $objExcel->setActiveSheetIndex(0);
+    $sheet = $objExcel->getActiveSheet()->setTitle('10A1');
 
-//Xét chiều rộng cho từng, nếu muốn set height thì dùng setRowHeight()
-$excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-$excel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-$excel->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+    $rowCount = 1;
+    $sheet->setCellValue('A'.$rowCount,'Mã đơn hàng');
+    $sheet->setCellValue('B'.$rowCount,'Họ tên');
+    $sheet->setCellValue('C'.$rowCount,'Số điện thoại');
+    $sheet->setCellValue('D'.$rowCount,'Email');
+    $sheet->setCellValue('E'.$rowCount,'Địa chỉ');
+    $sheet->setCellValue('F'.$rowCount,'Tên sách');
+    $sheet->setCellValue('G'.$rowCount,'Trạng thái');
+    $sheet->setCellValue('H'.$rowCount,'Số lượng');
+    $sheet->setCellValue('I'.$rowCount,'Tổng tiền');
+    $sheet->setCellValue('J'.$rowCount,'Ghi chú');
+    $sheet->setCellValue('K'.$rowCount,'Ngày đặt');
+    $type = isset($_POST['type']) ? $_POST['type'] : 0;
 
-//Xét in đậm cho khoảng cột
-$excel->getActiveSheet()->getStyle('A1:C1')->getFont()->setBold(true);
-//Tạo tiêu đề cho từng cột
-//Vị trí có dạng như sau:
-/**
- * |A1|B1|C1|..|n1|
- * |A2|B2|C2|..|n1|
- * |..|..|..|..|..|
- * |An|Bn|Cn|..|nn|
- */
-$excel->getActiveSheet()->setCellValue('A1', 'Tên');
-$excel->getActiveSheet()->setCellValue('B1', 'Giới Tính');
-$excel->getActiveSheet()->setCellValue('C1', 'Đơn giá(/shoot)');
-// thực hiện thêm dữ liệu vào từng ô bằng vòng lặp
-// dòng bắt đầu = 2
-$numRow = 2;
-foreach($data as $row){
-	$excel->getActiveSheet()->setCellValue('A'.$numRow, $row[0]);
-	$excel->getActiveSheet()->setCellValue('B'.$numRow, $row[1]);
-	$excel->getActiveSheet()->setCellValue('C'.$numRow, $row[2]);
-	$numRow++;
-}
-// Khởi tạo đối tượng PHPExcel_IOFactory để thực hiện ghi file
-// ở đây mình lưu file dưới dạng excel2007
+    $results = get_all_order_modle_export($type);
 
-PHPExcel_IOFactory::createWriter($excel, 'Excel2007')->save('data.xlsx');
-header('Content-type: application/vnd.ms-excel');
-header('Content-Disposition: attachment; filename="data.xls"');
-PHPExcel_IOFactory::createWriter($excel, 'Excel2007')->save('php://output');
+    foreach ($results as $key => $result) {
+        $rowCount += 1;
+        $sheet->setCellValue('A'.$rowCount,$result['id_hd']);
+        $sheet->setCellValue('B'.$rowCount,$result['TenKH']);
+        $sheet->setCellValue('C'.$rowCount,$result['SDT']);
+        $sheet->setCellValue('D'.$rowCount,$result['Email']);
+        $sheet->setCellValue('E'.$rowCount,$result['DiaChi']);
+        $sheet->setCellValue('F'.$rowCount,$result['TenSach']);
+        $sheet->setCellValue('G'.$rowCount,$array_trang_thai[$result['TrangThai']]);
+        $sheet->setCellValue('H'.$rowCount,$result['SoLuong']);
+        $sheet->setCellValue('I'.$rowCount,$result['ThanhTien']);
+        $sheet->setCellValue('J'.$rowCount,$result['GhiChu']);
+        $sheet->setCellValue('K'.$rowCount,$result['create_time']);
+    }
+
+    $objWriter = new PHPExcel_Writer_Excel2007($objExcel);
+    $filename = 'export.xlsx';
+    $objWriter->save('../../excel/'. date('d_m_Y_H_i_s')."_".$filename);
+    require_once '../view/orders/export_excel.php';
+
+    return;
 }
  ?>

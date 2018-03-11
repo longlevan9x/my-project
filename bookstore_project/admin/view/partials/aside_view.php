@@ -48,6 +48,9 @@
                         <li <?php echo ($cn == "members") ? "class='active'" : ''; ?> >
                             <a href="?sk=members"><i class="fa fa-th"></i>Thành viên</a>
                         </li>
+                        <li <?php echo ($cn == "footer") ? "class='active'" : ''; ?> >
+                            <a href="?sk=footer"><i class="fa fa-th"></i>Footer</a>
+                        </li>
                         <li>
                             <a><i class="fa fa-th"></i>Thống kê</a>
                         </li>

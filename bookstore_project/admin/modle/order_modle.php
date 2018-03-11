@@ -32,6 +32,29 @@ function get_all_order_modle($trang_thai, $keyword = ''){
 	return $orderBook;
 }
 
+function get_all_order_modle_export($trang_thai){
+    $data = array();
+    $conn = connection();
+    $status = $trang_thai;
+    $sql  = "SELECT a.id_hd,a.id_sach,a.TenKH,a.SDT,a.Email,a.DiaChi,a.GhiChu,a.SoLuong,a.ThanhTien,a.TrangThai,a.create_time,b.TenSach,b.HinhAnh
+			FROM donhang AS a INNER JOIN sach AS b ON a.id_sach = b.id
+			WHERE a.TrangThai = :status
+			ORDER BY a.id_hd DESC";
+    $stmt = $conn->prepare($sql);
+    if ($stmt) {
+        $stmt->bindParam(":status",$status,PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
+        $stmt->closeCursor();
+    }
+    disconnect($conn);
+    // xử lý data đổ ra view
+    return $data;
+}
+
 function get_all_data_orders($start,$limit,$keyword = "", $trang_thai = 0){
 	$data = array();
 	$conn = connection();

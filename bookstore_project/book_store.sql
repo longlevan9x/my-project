@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2017 at 08:17 AM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: Mar 11, 2018 at 07:12 PM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.0.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `book_store`
+-- Database: `bookstore`
 --
 
 -- --------------------------------------------------------
@@ -249,10 +251,28 @@ INSERT INTO `sach` (`id`, `TenSach`, `id_nxb`, `id_tg`, `status`, `HinhAnh`, `Gi
 (13, 'Hoa Hướng dương 1', 52, 5, 1, 'Penguins.jpg', 100000, 0, 1, 1233, 13213, 0, '2016-12-24 19:44:27', NULL),
 (14, 'Harry Porter', 58, 14, 1, 'image03.jpg', 10000000, 0, 4, 30, 500, 1, '2016-12-27 09:43:41', NULL),
 (15, 'Sách dạy nấu ăn', 53, 9, 1, 'image40.jpg', 252000, 700000, 5, 256, 1258, 3, '2016-12-27 09:44:49', '2016-12-30 18:58:09'),
-(16, 'City Hunter', 57, 14, 1, 'image10.jpg', 910000, 0, 7, 980, 10000, 0, '2016-12-27 09:46:59', NULL),
+(16, 'City Hunter', 57, 14, 1, 'image10.jpg', 910000, 0, 7, 980, 10000, 1, '2016-12-27 09:46:59', NULL),
 (17, 'Tấm cám', 60, 9, 1, 'loginascustomer_profile.jpg', 100000, 0, 3, 30, 200, 2, '2016-12-31 00:12:58', NULL),
 (18, 'Paulo Coelho', 55, 15, 1, 'nhagiakim.jpg', 750000, 0, 1, 1003, 13213, 21, '2016-12-31 00:17:18', NULL),
 (19, 'Tắt đèn 2', 54, 9, 1, '3-1.jpg', 1200000, 0, 5, 20, 500, 7, '2016-12-31 17:07:56', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting`
+--
+
+CREATE TABLE `setting` (
+  `meta_key` varchar(255) NOT NULL,
+  `meta_value` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `setting`
+--
+
+INSERT INTO `setting` (`meta_key`, `meta_value`) VALUES
+('footer', 'Địa chỉ gửi hàng đổi/trả/bảo hành: Trung Tâm Xử Lý Đơn Hàng TIKI, Lô II-1, đường CN1, Khu Công Nghiệp Tân Bình, phường Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh (Tham khảo hướng dẫn đổi, trả, bảo hành hoặc liên hệ 1900-6035 để được hướng dẫn trước khi gửi sản phẩm về Tiki)\r\n<br/>\r\nĐịa chỉ văn phòng: 52 Út Tịch, phường 4, quận Tân Bình, thành phố Hồ Chí Minh\r\n<br/>\r\nGiấy chứng nhận Đăng ký Kinh doanh số 0309532909 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 06/01/2010');
 
 -- --------------------------------------------------------
 
@@ -399,6 +419,12 @@ ALTER TABLE `sach`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `setting`
+--
+ALTER TABLE `setting`
+  ADD PRIMARY KEY (`meta_key`);
+
+--
 -- Indexes for table `tacgia`
 --
 ALTER TABLE `tacgia`
@@ -425,56 +451,68 @@ ALTER TABLE `test`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `ansewers`
 --
 ALTER TABLE `ansewers`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `chitiethoadon`
 --
 ALTER TABLE `chitiethoadon`
   MODIFY `id_hoadon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `donhang`
 --
 ALTER TABLE `donhang`
   MODIFY `id_hd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
 -- AUTO_INCREMENT for table `loaisach`
 --
 ALTER TABLE `loaisach`
   MODIFY `id_loai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
 --
 -- AUTO_INCREMENT for table `nhaxuatban`
 --
 ALTER TABLE `nhaxuatban`
   MODIFY `id_nxb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `sach`
 --
 ALTER TABLE `sach`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
 --
 -- AUTO_INCREMENT for table `tacgia`
 --
 ALTER TABLE `tacgia`
   MODIFY `id_tg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
 --
 -- AUTO_INCREMENT for table `taikhoan`
 --
 ALTER TABLE `taikhoan`
   MODIFY `id_tk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
 --
 -- AUTO_INCREMENT for table `test`
 --
 ALTER TABLE `test`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
