@@ -35,8 +35,8 @@
 		case 'orders':
 			require_once 'orders.php';
 			break;
-		case 'detailOders':
-			require_once 'orders.php';
+		case 'detailOrder':
+			require_once 'detailOrder.php';
 			break;
 		case 'members':
 			require_once 'members.php';

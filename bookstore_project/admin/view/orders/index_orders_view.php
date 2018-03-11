@@ -13,13 +13,37 @@ input{
 	font-size: 17px;
 }
 </style>
+<?php 
+$array_trang_thai = [
+		'Chờ xác nhận',
+		'Đã xác nhận',
+		'Đã hủy',
+];
+ ?>
 	<?php if (!empty($dataAllOrders)): ?>
 		<div class="row">
-		<h2 class="text-center">Danh sách đơn hàng !!!</h2>
+				<h2 class="text-center">Danh sách đơn hàng !!!</h2>
 		</div>
-		<div class="row search" style="">
-  	 <button type="button" name="btnSearch" class="btn btn-primary pull-right" id="btnSearch">Search</button>
-  	 <input type="text" name="txtsearch" id="txtsearch" class="pull-right" placeholder="Nhap tu tim kiem">
+		<div class=" col-md-3" style="">
+  	 		<div class="form-group">
+  	 			<label for="input" class="col-sm-4 control-label">Trạng thái:</label>
+  	 			<div class="col-sm-8">
+  	 				<form action="?sk=orders" id="form-order" method="get" accept-charset="utf-8">
+  	 					<select name="type" id="trangthai" class="form-control" required="required">
+			  	 			<option value="0" <?php echo isset($_GET['type']) && $_GET['type'] == 0 ? 'selected' : '' ?>>Chờ xác nhận</option>
+			  	 			<option value="1" <?php echo isset($_GET['type']) && $_GET['type'] == 1 ? 'selected' : '' ?>>Đã xác nhận</option>
+			  	 			<option value="2" <?php echo isset($_GET['type']) && $_GET['type'] == 2 ? 'selected' : '' ?>>Đã hủy</option>
+			  	 		</select>
+  	 				</form>
+  	 			</div>
+  	 		</div>
+		</div>
+		<div class="row search col-md-7" style="">
+  	 		<button type="button" name="btnSearch" class="btn btn-primary pull-right" id="btnSearch">Search</button>
+  	 		<input type="text" name="txtsearch" id="txtsearch" value="<?php echo isset($_GET['keyword']) ? $_GET['keyword'] : '' ?>" class="pull-right" placeholder="Nhap tu tim kiem">
+		</div>
+		<div class="row search col-md-1" style="">
+  	 		<button type="button" name="export_excel" class="btn btn-primary pull-right" id="export_excel">Export Excel</button>
 		</div>
 	<?php else: ?>
 	  <div class="row">
@@ -40,16 +64,17 @@ input{
           <table class="table table-bordered" style="margin-top: 10px;">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Phone</th>
+                <th>Mã đơn hàng</th>
+                <th>Họ tên</th>
+                <th>Số điện thoại</th>
                 <th>Email</th>
-                <th>Address</th>
-                <th>Qty</th>
-                <th>Money</th>
-                <th>Create</th>
-                <th>Note</th>
-                <th colspan="2" class="text-center">Action</th>
+                <!-- <th>Address</th> -->
+                <th>Trạng thái</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+	            <?php if (isset($_GET['type']) && $_GET['type'] == 0): ?>
+            		<th colspan="2" class="text-center">Action</th>
+                <?php endif ?>
               </tr>
             </thead>
             <tbody>
@@ -57,17 +82,22 @@ input{
             	<?php $i=1; ?>
 	            <?php foreach ($listOrder['listorder'] as $key => $val): ?>
 	              	<tr>
-		                <td><?php echo $i; ?></td>
+		                <td><a href="?sk=detailOrder&id=<?= $val['id_hd'] ?>&type=<?= $val['TrangThai'] ?>"><?php echo $val['id_hd']; ?></a></td>
 		                <td><?php echo $val['TenKH']; ?></td>
 		                <td><?php echo $val['SDT']; ?></td>
 		                <td><?php echo $val['Email']; ?></td>
-		                <td><?php echo $val['DiaChi']; ?></td>
+		                <!-- <td><?php echo $val['DiaChi']; ?></td> -->
+		                <td><?php echo $array_trang_thai[$val['TrangThai']]; ?></td>
 		                <td><?php echo $val['SoLuong']; ?></td>
 		                <td><?php echo number_format($val['ThanhTien']); ?></td>
-		                <td><?php echo $val['create_time']; ?></td>
-		                <td><?php echo $val['GhiChu']; ?></td>
-		                <td><button type="button" class="btn btn-small btn-primary" onclick="update(<?php echo $val['id_hd']; ?>,1);">Xác nhận</button></td>
-		                <td><button type="button" class="btn btn-small btn-danger" onclick="update(<?php echo $val['id_hd']; ?>,2);"> Hủy</button></td>
+		                <?php if (isset($_GET['type']) && $_GET['type'] == 0): ?>
+			                <td>
+			                	<button type="button" class="btn btn-small btn-primary" onclick="update(<?php echo $val['id_hd']; ?>,1);">Xác nhận</button>
+			                </td>
+			                <td>
+			                	<button type="button" class="btn btn-small btn-danger" onclick="update(<?php echo $val['id_hd']; ?>,2);"> Hủy</button>
+			                </td>
+		                <?php endif ?>
 	              	</tr>
 	              <?php $i++; ?>
 	            <?php endforeach ?>
@@ -115,5 +145,11 @@ input{
 			var keyword = $.trim($('#txtsearch').val());
 			window.location.href = "?sk=orders&m=index&page=1&keyword="+keyword;
 		});
+		$('#trangthai').change(function (event) {
+			// $('#form-order').submit();
+			let type = $(this).val();
+			window.location.href = "?sk=orders&m=index&page=1&type="+type;
+		});
+		$('#export_excel').click();
 	});
 </script>

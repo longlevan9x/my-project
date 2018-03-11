@@ -1,10 +1,10 @@
 <?php 
 require_once '../config/database.php';
-function get_all_order_modle($keyword = ''){
+function get_all_order_modle($trang_thai, $keyword = ''){
 	$data = array();
 	$conn = connection();
 	$key = '%' . $keyword . '%';
-	$status = 0;
+	$status = $trang_thai;
 	$sql  = "SELECT a.id_hd,a.id_sach,a.TenKH,a.SDT,a.Email,a.DiaChi,a.GhiChu,a.SoLuong,a.ThanhTien,a.TrangThai,a.create_time,b.TenSach,b.HinhAnh
 			FROM donhang AS a INNER JOIN sach AS b ON a.id_sach = b.id
 			WHERE a.TrangThai = :status AND b.TenSach LIKE :key
@@ -21,7 +21,6 @@ function get_all_order_modle($keyword = ''){
 		$stmt->closeCursor();
 	}
 	disconnect($conn);
-	// print_r($data); die();
 	// xử lý data đổ ra view
 	$orderBook = array();
 	foreach ($data as $key => $val) {
@@ -33,10 +32,10 @@ function get_all_order_modle($keyword = ''){
 	return $orderBook;
 }
 
-function get_all_data_orders($start,$limit,$keyword = ""){
+function get_all_data_orders($start,$limit,$keyword = "", $trang_thai = 0){
 	$data = array();
 	$conn = connection();
-	$status = 0;
+	$status = $trang_thai;
 	$key = '%' . $keyword . '%';
 	$sql  = "SELECT a.id_hd,a.id_sach,a.TenKH,a.SDT,a.Email,a.DiaChi,a.GhiChu,a.SoLuong,a.ThanhTien,a.TrangThai,a.create_time,b.TenSach,b.HinhAnh
 			FROM donhang AS a INNER JOIN sach AS b ON a.id_sach = b.id
@@ -123,5 +122,29 @@ function save_detail_order($id){
 	}
 	disconnect($conn);
 	return $flag;
+}
+
+function get_order_modle($id, $trang_thai){
+	$data = array();
+	$conn = connection();
+	$status = $trang_thai;
+	$sql  = "SELECT a.id_hd,a.id_sach,a.TenKH,a.SDT,a.Email,a.DiaChi,a.GhiChu,a.SoLuong,a.ThanhTien,a.TrangThai,a.create_time,b.TenSach,b.HinhAnh
+			FROM donhang AS a INNER JOIN sach AS b ON a.id_sach = b.id
+			WHERE a.TrangThai = :status AND a.id_hd LIKE :id
+			ORDER BY a.create_time DESC";
+	$stmt = $conn->prepare($sql);
+	if ($stmt) {
+		$stmt->bindParam(":id",$id,PDO::PARAM_INT);
+		$stmt->bindParam(":status",$status,PDO::PARAM_INT);
+		if ($stmt->execute()) {
+			if ($stmt->rowCount() > 0) {
+				$data = $stmt->fetch(PDO::FETCH_ASSOC);
+			}
+		}
+		$stmt->closeCursor();
+	}
+	disconnect($conn);
+	// xử lý data đổ ra view
+	return $data;
 }
  ?>

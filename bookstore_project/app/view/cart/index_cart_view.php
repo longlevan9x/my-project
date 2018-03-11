@@ -26,6 +26,7 @@
         </div>
     <?php endif ?>
 <?php if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+    <?php $tong_tien = 0; ?>
     <div class="heading-bar">
         <a class="more-btn">Danh sách sản phẩm</a>
     </div>
@@ -50,8 +51,17 @@
                     <td  class="center1 img_gio_hang"><?php echo number_format($listCart['qty'] * $listCart['cost']); ?></td>
                     <td ><a onclick="deleteOneCart(<?php echo $listCart['idBook']; ?>);"> <i class="icon-trash"></i></a></td>
                 </tr>
+            <?php $tong_tien += ($listCart['qty'] * $listCart['cost']) ?>
             <?php $i++; ?>
             <?php endforeach ?>
+                <tr>
+                    <td colspan="5" style="text-align: right">
+                        <span>Tổng tiền</span>
+                    </td>
+                    <td>
+                        <span><?php echo number_format($tong_tien); ?></span>
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="6" style="text-align: right">
                         <a href="?cn=index" class="btn btn-danger">Tiếp tục mua hàng</a>

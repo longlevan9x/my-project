@@ -42,8 +42,8 @@
                         <li <?php echo ($cn == "orders") ? "class='active'" : ''; ?> >
                             <a href="?sk=orders"><i class="fa fa-th"></i>Đơn hàng</a>
                         </li>
-                        <li <?php echo ($cn== "detailOders") ? "class='active'" : ""; ?>>
-                            <a href="?sk=detailOders"><i class="fa fa-th"></i>Chi tiết đơn hàng</a>
+                        <li <?php echo ($cn== "detailOrder") ? "class='active'" : ""; ?>>
+                            <a href="?sk=detailOrder"><i class="fa fa-th"></i>Chi tiết đơn hàng</a>
                         </li>
                         <li <?php echo ($cn == "members") ? "class='active'" : ''; ?> >
                             <a href="?sk=members"><i class="fa fa-th"></i>Thành viên</a>
