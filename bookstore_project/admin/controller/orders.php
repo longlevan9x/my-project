@@ -114,12 +114,10 @@ foreach($data as $row){
 }
 // Khởi tạo đối tượng PHPExcel_IOFactory để thực hiện ghi file
 // ở đây mình lưu file dưới dạng excel2007
+
 PHPExcel_IOFactory::createWriter($excel, 'Excel2007')->save('data.xlsx');
-header('Content-Disposition: attachment; filename="' . $filename . '"');  
-	header('Content-Type: application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet');  
-	header('Content-Length: ' . filesize($filename));  
-	header('Content-Transfer-Encoding: binary');  
-	header('Cache-Control: must-revalidate');  
-	header('Pragma: no-cache');  
+header('Content-type: application/vnd.ms-excel');
+header('Content-Disposition: attachment; filename="data.xls"');
+PHPExcel_IOFactory::createWriter($excel, 'Excel2007')->save('php://output');
 }
  ?>
