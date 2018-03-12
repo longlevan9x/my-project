@@ -95,13 +95,13 @@ function register(){
 				$subject = "<h2>Active Your Account</h2>";
 				$id   = encode($add);
 				$link = "cuahangsach1069.esy.es/bookstore_project/index.php?cn=signup&m=active&id=".$id."&au=".$authenkey;
-				$send = xl_sendmail($email,$subject,$link);
-				if ($send) {
+//				$send = xl_sendmail($email,$subject,$link);
+//				if ($send) {
 					header("Location: ?cn=signup&m=index&mess=success");
-				}
-				else{
-					header("Location: ?cn=signup&m=index&mess=fail1");
-				}//end send
+//				}
+//				else{
+//					header("Location: ?cn=signup&m=index&mess=fail1");
+//				}//end send
 			}
 			else{
 				header("Location: ?cn=signup&m=index&mess=fail");

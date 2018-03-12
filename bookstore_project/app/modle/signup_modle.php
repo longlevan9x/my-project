@@ -3,7 +3,7 @@ require_once 'app/config/database.php';
 
 function add_member_modle($username,$password,$email,$fullname,$address,$phone,$authenkey){
 	$flag = 0;
-	$status = 0;
+	$status = 1;
 	$role = 0;
 	$createTime = date("Y-m-d H:i:s");
 	$updateTime = '';
